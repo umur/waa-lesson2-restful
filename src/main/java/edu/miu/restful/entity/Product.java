@@ -2,7 +2,7 @@ package edu.miu.restful.entity;
 
 import lombok.Data;
 
-import java.util.Objects;
+import java.util.List;
 
 @Data
 public class Product {
@@ -11,4 +11,5 @@ public class Product {
     private String name;
     private float price;
 
+    private List<Review> reviews;
 }
