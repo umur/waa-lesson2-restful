@@ -28,6 +28,7 @@ public class ProductController {
     @GetMapping
     public List<Product> getAll() {
         // call service
+        return null;
     }
 
     @GetMapping("/{id}")
@@ -58,6 +59,7 @@ public class ProductController {
     public Review mapDemo(@PathVariable Map<String, Integer> pathVariables) {
         int pid = pathVariables.get("productId");
         int reviewId = pathVariables.get("reviewId");
+        return null;
     }
 
     // FOR DEMO PURPOSES
