@@ -14,6 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+    // TODO add DTOs
+
+    // TODO add two slides about DTOs
+    // TODO ModelMapper
+
     private final ProductRepo productRepo;
 
     @Override

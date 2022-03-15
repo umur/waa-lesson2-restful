@@ -26,6 +26,7 @@ public class ProductController {
         productService.save(dto);
     }
 
+    // TODO Add ResponseStatus
     @GetMapping
     public List<ProductDto> getAll() {
         return productService.getAll();
