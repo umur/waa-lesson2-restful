@@ -25,6 +25,7 @@ public class ProductController {
         productService.save(p);
     }
 
+    // TODO Add ResponseStatus
     @GetMapping
     public List<Product> getAll() {
         // call service

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO Make an interface for the Repo
+
 @Repository
 public class ProductRepo {
     private static List<Product> products;
@@ -39,5 +41,7 @@ public class ProductRepo {
                 .orElse(null);
 
     }
+
+    // TODO
 
 }
