@@ -1,12 +1,17 @@
 package edu.miu.restful.service;
 
 import edu.miu.restful.entity.Product;
+import edu.miu.restful.entity.dto.ProductDto;
+
+import java.util.List;
 
 public interface ProductService {
 
-    void save(Product p);
+    public List<ProductDto> findAll();
+
+    ProductDto getById(int id);
+
+    void save(ProductDto p);
 
     void delete(int id);
-
-    Product getById(int id);
 }

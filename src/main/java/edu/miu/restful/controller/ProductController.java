@@ -2,6 +2,7 @@ package edu.miu.restful.controller;
 
 import edu.miu.restful.entity.Product;
 import edu.miu.restful.entity.Review;
+import edu.miu.restful.entity.dto.ProductDto;
 import edu.miu.restful.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,24 +21,22 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public List<ProductDto> getAll() {
+        return productService.findAll();
+    }
+
     @PostMapping
-    public void save(@RequestBody Product p) {
+    public void save(@RequestBody ProductDto p) {
         productService.save(p);
     }
 
-    // TODO Add ResponseStatus
-    @GetMapping
-    public List<Product> getAll() {
-        // call service
-        return null;
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getById(@PathVariable int id) {
+    public ResponseEntity<ProductDto> getById(@PathVariable int id) {
         var product = productService.getById(id);
         return ResponseEntity.ok(product);
     }
-
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
