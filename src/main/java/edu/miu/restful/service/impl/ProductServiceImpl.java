@@ -1,6 +1,7 @@
 package edu.miu.restful.service.impl;
 
 import edu.miu.restful.entity.Product;
+import edu.miu.restful.entity.dto.ProductDetailDto;
 import edu.miu.restful.entity.dto.ProductDto;
 import edu.miu.restful.helper.ListMapper;
 import edu.miu.restful.repo.ProductRepo;
@@ -35,6 +36,13 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductDto getById(int id) {
         return modelMapper.map(productRepo.getById(id), ProductDto.class);
+    }
+
+    @Override
+    public ProductDetailDto getReviewsByProductId(int id) {
+        if(id == 0)
+            return new ProductDetailDto();
+        return modelMapper.map(productRepo.getById(id), ProductDetailDto.class);
     }
 
     @Override
