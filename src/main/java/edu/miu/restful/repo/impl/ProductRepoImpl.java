@@ -42,10 +42,11 @@ public class ProductRepoImpl implements ProductRepo {
 
 
     public void delete(int id) {
-        products
+        var product =products
                 .stream()
                 .filter(l -> l.getId() == id)
-                .forEach(l -> products.remove(l));
+                .findFirst().get();
+        products.remove(product);
     }
 
     public Product getById(int id) {
