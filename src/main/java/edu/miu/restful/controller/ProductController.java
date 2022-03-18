@@ -2,6 +2,7 @@ package edu.miu.restful.controller;
 
 import edu.miu.restful.entity.Product;
 import edu.miu.restful.entity.Review;
+import edu.miu.restful.entity.dto.ProductDetailDto;
 import edu.miu.restful.entity.dto.ProductDto;
 import edu.miu.restful.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -50,9 +51,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}/reviews")
-    public ResponseEntity<Review> getReviewsByProductId(@PathVariable int id) {
-        // for demo purposes, this request is not authorized.
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+    public ProductDetailDto getReviewsByProductId(@PathVariable int id) {
+        return productService.getReviewsByProductId(id);
     }
 
     // FOR DEMO PURPOSES
