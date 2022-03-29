@@ -15,6 +15,8 @@ public class ListMapper<T,E> {
 
     /**
      *
+     * This method will traverse through a list and map all the elements with a Dto or vice versa
+     *
      * @param list This is the list of elements that you want you want to convert to.
      * @param convertTo This is the type of class that it will convert to.
      * @return This will return a generic type holding a list of converted elements (NOTE: Downcast to the wiling type when you call the method)

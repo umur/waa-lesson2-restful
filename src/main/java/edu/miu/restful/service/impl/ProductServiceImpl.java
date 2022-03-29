@@ -1,6 +1,7 @@
 package edu.miu.restful.service.impl;
 
 import edu.miu.restful.entity.Product;
+import edu.miu.restful.entity.Review;
 import edu.miu.restful.entity.dto.ProductDetailDto;
 import edu.miu.restful.entity.dto.ProductDto;
 import edu.miu.restful.helper.ListMapper;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -54,4 +56,21 @@ public class ProductServiceImpl implements ProductService {
     public void delete(int id) {
         productRepo.delete(id);
     }
+
+    @Override
+    public void update(int id,  ProductDto p) {
+        productRepo.update(id, modelMapper.map(p, Product.class));
+    }
+
+    @Override
+    public Review getReviewByProductId(int pId, int reviewId){
+        return productRepo.getReviewByProductId(pId, reviewId);
+    }
+
+
+    @Override
+    public List<ProductDto>findAllPriceGreaterThan(int price){
+        return (List<ProductDto>) listMapperProductToDto.mapList(productRepo.findAllPriceGreaterThan(price),new ProductDto());}
+
+
 }

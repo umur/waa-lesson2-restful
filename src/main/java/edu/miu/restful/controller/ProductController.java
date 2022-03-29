@@ -5,6 +5,7 @@ import edu.miu.restful.entity.Review;
 import edu.miu.restful.entity.dto.ProductDetailDto;
 import edu.miu.restful.entity.dto.ProductDto;
 import edu.miu.restful.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,15 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<ProductDto> getAll() {
-        return productService.findAll();
+    public List<ProductDto> getAll(@RequestParam(value = "filter" ,required = false) Integer price) {
+        return price==null?productService.findAll():productService.findAllPriceGreaterThan(price);
     }
 
     @PostMapping
@@ -46,14 +48,20 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") int productId) {
-        //call service
+    public void update(@PathVariable("id") int productId, @RequestBody ProductDto p) {
+        productService.update(productId,p);
     }
 
     @GetMapping("/{id}/reviews")
     public ProductDetailDto getReviewsByProductId(@PathVariable int id) {
         return productService.getReviewsByProductId(id);
     }
+
+    @GetMapping("/{id}/reviews/{reviewId}") // WITHOUT DTO
+    public Review getReviewByProductId(@PathVariable("id") int pId, @PathVariable("reviewId") int reviewId) {
+        return productService.getReviewByProductId(pId, reviewId);
+    }
+
 
     // FOR DEMO PURPOSES
     @GetMapping("/{productId}/{reviewId}")
@@ -76,5 +84,7 @@ public class ProductController {
             return "ID missing";
         }
     }
+
+
 
 }

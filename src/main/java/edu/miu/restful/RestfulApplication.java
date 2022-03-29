@@ -12,7 +12,6 @@ public class RestfulApplication {
 		SpringApplication.run(RestfulApplication.class, args);
 	}
 
-	//TODO Should we add a configuration file for this???
 
 	@Bean
 	public ModelMapper modelMapper() {
