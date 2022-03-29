@@ -6,6 +6,8 @@ import edu.miu.restful.entity.dto.ProductDetailDto;
 import edu.miu.restful.entity.dto.ProductDto;
 import edu.miu.restful.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +29,16 @@ public class ProductController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<ProductDto> getAll(@RequestParam(value = "filter" ,required = false) Integer price) {
-        return price==null?productService.findAll():productService.findAllPriceGreaterThan(price);
+    public List<ProductDto> getAll() {
+        return productService.findAll();
     }
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping
+//    public List<ProductDto> getAll(@RequestParam(value = "filter" ,required = false) Integer price) {
+//        return price==null?productService.findAll():productService.findAllPriceGreaterThan(price);
+//    }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void save(@RequestBody ProductDto p) {
         productService.save(p);
@@ -42,6 +50,7 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
         productService.delete(id);
@@ -83,6 +92,20 @@ public class ProductController {
         } else {
             return "ID missing";
         }
+    }
+
+    // FOR DEMO PURPOSES
+    @GetMapping("/h/{id}")
+    public EntityModel<ProductDto> getByIdH(@PathVariable int id) {
+
+        ProductDto product = productService.getById(id);
+        EntityModel<ProductDto> resource = EntityModel.of(product);
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+                .linkTo(
+                        WebMvcLinkBuilder.methodOn(this.getClass()).getAll());
+        resource.add(linkTo.withRel("all-products"));
+
+        return resource;
     }
 
 
