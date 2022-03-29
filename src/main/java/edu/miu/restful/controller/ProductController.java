@@ -8,6 +8,7 @@ import edu.miu.restful.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,16 +28,12 @@ public class ProductController {
         this.productService = productService;
     }
 
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<ProductDto> getAll() {
-        return productService.findAll();
+    public List<ProductDto> getAll(@RequestParam(value = "filter" ,required = false) Integer price) {
+        return price==null?productService.findAll():productService.findAllPriceGreaterThan(price);
     }
-//    @ResponseStatus(HttpStatus.OK)
-//    @GetMapping
-//    public List<ProductDto> getAll(@RequestParam(value = "filter" ,required = false) Integer price) {
-//        return price==null?productService.findAll():productService.findAllPriceGreaterThan(price);
-//    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -48,6 +45,9 @@ public class ProductController {
     public ResponseEntity<ProductDto> getById(@PathVariable int id) {
         var product = productService.getById(id);
         return ResponseEntity.ok(product);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Custom-Header", "foo");
+//        return ResponseEntity.ok().headers(headers).body(product);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -102,7 +102,7 @@ public class ProductController {
         EntityModel<ProductDto> resource = EntityModel.of(product);
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(
-                        WebMvcLinkBuilder.methodOn(this.getClass()).getAll());
+                        WebMvcLinkBuilder.methodOn(this.getClass()).getAll(null));
         resource.add(linkTo.withRel("all-products"));
 
         return resource;
