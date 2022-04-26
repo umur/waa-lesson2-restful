@@ -1,5 +1,6 @@
 package edu.miu.restful.controller;
 
+import edu.miu.restful.dto.ProductDto;
 import edu.miu.restful.entity.Product;
 import edu.miu.restful.entity.Review;
 import edu.miu.restful.service.ProductService;
@@ -21,14 +22,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public void save(@RequestBody Product p) {
-        productService.save(p);
+    public void save(@RequestBody ProductDto dto) {
+        productService.save(dto);
     }
 
     @GetMapping
-    public List<Product> getAll() {
-        // call service
-        return null;
+    public List<ProductDto> getAll() {
+        return productService.getAll();
     }
 
     @GetMapping("/{id}")

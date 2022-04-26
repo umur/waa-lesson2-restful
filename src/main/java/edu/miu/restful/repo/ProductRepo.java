@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class ProductRepo {
@@ -12,6 +13,13 @@ public class ProductRepo {
 
     static {
         products = new ArrayList<>();
+        var p = new Product();
+        p.setId(1);
+        p.setName("test product");
+        p.setPrice(100);
+        p.setDiscount(10);
+        p.setCategory("test cat");
+        products.add((p));
     }
 
     public void save(Product p) {
@@ -25,6 +33,7 @@ public class ProductRepo {
     }
 
     public void delete(int id) {
+        // set deleted to true
         products
                 .stream()
                 .filter(l -> l.getId() == id)
@@ -38,6 +47,12 @@ public class ProductRepo {
                 .findFirst()
                 .orElse(null);
 
+    }
+
+    public List<Product> getAll(){
+        return  products.stream()
+                .filter(l->!l.isDeleted())
+                .collect(Collectors.toList());
     }
 
 }

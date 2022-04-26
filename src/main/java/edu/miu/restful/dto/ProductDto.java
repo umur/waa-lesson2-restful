@@ -1,12 +1,12 @@
-package edu.miu.restful.entity;
+package edu.miu.restful.dto;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-public class Product {
+public class ProductDto {
+
 
     private int id;
     private String name;
@@ -16,10 +16,5 @@ public class Product {
     private int discount;
     private int starCount;
 
-    private boolean deleted;
 
-    private LocalDateTime createdAt;
-     // ....
-
-    private List<Review> reviews;
 }
