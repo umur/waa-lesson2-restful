@@ -1,6 +1,5 @@
 package edu.miu.restful.controller;
 
-import edu.miu.restful.entity.Product;
 import edu.miu.restful.entity.Review;
 import edu.miu.restful.entity.dto.ProductDetailDto;
 import edu.miu.restful.entity.dto.ProductDto;
@@ -8,9 +7,12 @@ import edu.miu.restful.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+
 import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,18 +34,21 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<ProductDto> getAll(@RequestParam(value = "filter" ,required = false) Integer price) {
-        return price==null?productService.findAll():productService.findAllPriceGreaterThan(price);
+        return price==null?
+                productService.findAll():
+                productService.findAllPriceGreaterThan(price);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void save(@RequestBody ProductDto p) {
+
         productService.save(p);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getById(@PathVariable int id) {
-        var product = productService.getById(id);
+        var product = productService.findById(id);
         return ResponseEntity.ok(product);
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.add("Custom-Header", "foo");
@@ -53,6 +58,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
+
         productService.delete(id);
     }
 
@@ -73,14 +79,6 @@ public class ProductController {
 
 
     // FOR DEMO PURPOSES
-    @GetMapping("/{productId}/{reviewId}")
-    public Review mapDemo(@PathVariable Map<String, Integer> pathVariables) {
-        int pid = pathVariables.get("productId");
-        int reviewId = pathVariables.get("reviewId");
-        return null;
-    }
-
-    // FOR DEMO PURPOSES
     @GetMapping(value =
             {
                     "/handlingMultipleEndpoints",
@@ -98,11 +96,12 @@ public class ProductController {
     @GetMapping("/h/{id}")
     public EntityModel<ProductDto> getByIdH(@PathVariable int id) {
 
-        ProductDto product = productService.getById(id);
+        ProductDto product = productService.findById(id);
         EntityModel<ProductDto> resource = EntityModel.of(product);
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(
                         WebMvcLinkBuilder.methodOn(this.getClass()).getAll(null));
+
         resource.add(linkTo.withRel("all-products"));
 
         return resource;

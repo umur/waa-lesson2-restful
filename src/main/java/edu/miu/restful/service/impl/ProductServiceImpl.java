@@ -20,7 +20,6 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
 
-    // TODO add two slides about DTOs
 
 
     private final ProductRepo productRepo;
@@ -33,10 +32,11 @@ public class ProductServiceImpl implements ProductService {
     ListMapper<Product,ProductDto> listMapperProductToDto;
 
     public List<ProductDto> findAll() {
-        return (List<ProductDto>) listMapperProductToDto.mapList(productRepo.findAll(),new ProductDto());}
+        return (List<ProductDto>) listMapperProductToDto.mapList(productRepo.findAll(),new ProductDto());
+    }
 
 
-    public ProductDto getById(int id) {
+    public ProductDto findById(int id) {
         return modelMapper.map(productRepo.getById(id), ProductDto.class);
     }
 
@@ -49,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void save(ProductDto p) {
+
         productRepo.save(modelMapper.map(p, Product.class));
     }
 
@@ -71,6 +72,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto>findAllPriceGreaterThan(int price){
         return (List<ProductDto>) listMapperProductToDto.mapList(productRepo.findAllPriceGreaterThan(price),new ProductDto());}
+
+
 
 
 }
