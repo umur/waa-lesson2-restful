@@ -12,7 +12,7 @@ public interface ProductService {
 
     public List<ProductDto> findAll();
 
-    ProductDto getById(int id);
+    ProductDto findById(int id);
 
     ProductDetailDto getReviewsByProductId(int id);
 
@@ -25,4 +25,5 @@ public interface ProductService {
     Review getReviewByProductId(int pId, int reviewId);
 
     List<ProductDto>findAllPriceGreaterThan(int price);
+
 }
