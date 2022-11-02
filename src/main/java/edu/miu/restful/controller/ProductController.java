@@ -23,6 +23,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -43,7 +44,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getById(@PathVariable int id) {
-        var product = productService.getById(id);
+        var product = productService.findById(id);
         return ResponseEntity.ok(product);
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.add("Custom-Header", "foo");
@@ -98,7 +99,7 @@ public class ProductController {
     @GetMapping("/h/{id}")
     public EntityModel<ProductDto> getByIdH(@PathVariable int id) {
 
-        ProductDto product = productService.getById(id);
+        ProductDto product = productService.findById(id);
         EntityModel<ProductDto> resource = EntityModel.of(product);
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(
